@@ -7,6 +7,7 @@ package _02_jeopardy;
 
 import java.awt.BorderLayout;
 
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
