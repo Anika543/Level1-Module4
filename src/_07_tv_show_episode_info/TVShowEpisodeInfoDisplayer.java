@@ -27,7 +27,6 @@ public class TVShowEpisodeInfoDisplayer implements ActionListener {
 		JButton button = new JButton("Submit"); 
 		button.addActionListener(this);
 		
-		
 		frame.add(panel);
 		panel.add(field);
 		panel.add(button); 
