@@ -1,42 +1,97 @@
 package _09_whack_a_mole;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class WhackAMole {
+import java.util.Date;
+import java.util.Random; 
+public class WhackAMole implements ActionListener {
 	JFrame frame = new JFrame(); 
 	JPanel panel = new JPanel(); 
-
-	JButton button1 = new JButton();
-	JButton button2 = new JButton();
-	JButton button3 = new JButton();
-	JButton button4 = new JButton();
-	JButton button5 = new JButton();
-	JButton button6 = new JButton();
-	JButton button7 = new JButton();
-	JButton button8 = new JButton();
-	JButton button9 = new JButton();
-	JButton button10 = new JButton();
-	JButton button11 = new JButton();
-	JButton button12 = new JButton();
-	JButton button13 = new JButton();
-	JButton button14= new JButton();
-	JButton button15= new JButton();
-	JButton button16= new JButton();
-	JButton button17 = new JButton();
-	JButton button18 = new JButton();
-	JButton button19 = new JButton();
-	JButton button20 = new JButton();
-	JButton button21 = new JButton();
-
-	
+	Random rand = new Random(); 
+	JButton mole; 
+	int o = 0; 
+	Date now = new Date(); 
 	
 	public void run() {
 		frame.add(panel);
 		frame.setTitle("Whack A Button For Fame And Glory");
+	
+		frame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		int g = rand.nextInt(24); 
+		drawButtons(g);
+		frame.setSize(250, 340); 
 		
 	}
+	
+	public void drawButtons (int f) {
+		
+		panel.removeAll();;
+		if(o==9) {
+			endGame(now, o); 
+		}
+		for(int i = 0; i<24; i++) {
+			JButton b = new JButton(); 
+			b.addActionListener(this);
+			panel.add(b);
+			if(i == f) {
+				b.setText("mole!");
+				mole = b; 
+				
+			}
+			
+		}
+		
+	}
+
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getSource() == mole) {
+			
+			drawButtons(rand.nextInt(24));
+			o++; 
+			
+		}else {
+			String s = "You clicked the Wrong Button"; 
+			speak(s); 
+			drawButtons(rand.nextInt(24));
+		}
+		
+	}
+	
+	 static void speak(String words) {
+	        if( System.getProperty( "os.name" ).contains( "Windows" ) ) {
+	            String cmd = "PowerShell -Command \"Add-Type -AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak('"
+	                    + words + "');\"";
+	            try {
+	                Runtime.getRuntime().exec( cmd ).waitFor();
+	            } catch( Exception e ) {
+	                e.printStackTrace();
+	            }
+	        } else {
+	            try {
+	                Runtime.getRuntime().exec( "say " + words ).waitFor();
+	            } catch( Exception e ) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	 
+	 private void endGame(Date timeAtStart, int molesWhacked) { 
+		    Date timeAtEnd = new Date();
+		    JOptionPane.showMessageDialog(null, "Your whack rate is "
+		            + ((timeAtEnd.getTime() - timeAtStart.getTime()) / 1000.00 / molesWhacked)
+		                  + " moles per second.");
+		}
 
 }
